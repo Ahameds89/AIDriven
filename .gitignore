@@ -1,0 +1,14 @@
+# Node.js dependencies
+node_modules/
+
+# Playwright test output
+test-results/
+playwright-report/
+*.log
+
+# Playwright cache
+.vscode/.playwright/
+
+# VSCode settings (optional)
+.vscode/
+
