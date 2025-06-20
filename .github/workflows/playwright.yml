@@ -36,3 +36,26 @@ jobs:
         name: playwright-report
         path: playwright-report/
         retention-days: 30 
+
+  publish_report:
+    name: Publish HTML Report
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Download Playwright Report
+      uses: actions/download-artifact@v4
+      with:
+        name: playwright-report
+        path: playwright-report/
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: playwright-report
+        destination_dir: ${{ github.run_id }}
+
+    - name: Output Report URL
+      run: echo "::notice title=Playwright Report URL::https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/${{ github.run_id }}/" 
